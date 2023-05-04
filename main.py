@@ -5,7 +5,7 @@
 4) "se copiaran x csrpetas de servicios a carpeta destino"
 """
 
-from pathlib import Path
+import pathlib
 
 
 def choose_source_folder():
@@ -25,11 +25,13 @@ def get_folders_without_invoice(source_folder):
 
     services_without_invoice = []
 
-    cursor = Path(source_folder)
+    main_folder = pathlib.Path(source_folder)
     
     # TODO: Agregar exception handling cuando interactuo con sistemas externos
     # (ej, cuando hago llamadas al SO).
-    for administration_folder in cursor.iterdir():
+    for administration_folder in main_folder.iterdir():
+        # TODO: Ver tema del NotADirectoryError cuando toma un elemento que
+        # no es un directorio.
         for building_folder in administration_folder.iterdir():
             for service_folder in building_folder:
                 invoices = service_folder.glob(INVOICE_PATTERN)

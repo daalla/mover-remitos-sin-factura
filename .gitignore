@@ -1,2 +1,4 @@
 *.code-workspace
+.python-version
 .venv
+.vscode
