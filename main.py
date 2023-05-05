@@ -40,6 +40,8 @@ def get_folders_without_invoice(source_folder):
     # - Preguntar si hay que mover directorios vacíos tmb (o sea, que no
     # tienen remito). Por el momento, voy a tomar que sí.
     # - Ver si paso todas las constantes a un archivo de config.
+    # - Más adelante ver si me conviene pasarlo a OOP (o sea, si se volvió
+    # spaghetti code) o si lo mantengo en paradigma procedural.
     for administration_folder in main_folder.iterdir():
         if administration_folder.is_dir():
             for building_folder in administration_folder.iterdir():
@@ -64,7 +66,7 @@ def inform_copy_cancellation():
 
 def main():
     source_folder = choose_source_folder()
-    # TODO: Validar inputs de terceros y usuario?
+    # TODO: Validar inputs de terceros y usuario (que sea un file path valido, etc)?
     destination_folder = choose_destination_folder()
 
     folders_without_invoice = get_folders_without_invoice(source_folder)
