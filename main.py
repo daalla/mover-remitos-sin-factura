@@ -3,6 +3,10 @@
 2) Elegir carpeta destino
 3) confirmacion: "se copiaran x servicios sin factura de la carpeta <origen> a la carpeta <destino>. desea continuar?"
 4) "se copiaran x csrpetas de servicios a carpeta destino"
+
+
+Hacer tipo TDD pero "inverso"? Hacer el código, armar los tests y luego 
+refactorearlo? Capaz sirve como introducción a TDD
 """
 
 import pathlib
@@ -27,16 +31,24 @@ def get_folders_without_invoice(source_folder):
 
     main_folder = pathlib.Path(source_folder)
     
-    # TODO: Agregar exception handling cuando interactuo con sistemas externos
+    # TODO: 
+    # - Agregar exception handling cuando interactuo con sistemas externos
     # (ej, cuando hago llamadas al SO).
+    # - Ver tema del NotADirectoryError cuando toma un elemento que
+    # no es un directorio.
+    # - Qué pasa cuando un dir está vacío? parece que no se rompe.
+    # - Preguntar si hay que mover directorios vacíos tmb (o sea, que no
+    # tienen remito). Por el momento, voy a tomar que sí.
+    # - Ver si paso todas las constantes a un archivo de config.
     for administration_folder in main_folder.iterdir():
-        # TODO: Ver tema del NotADirectoryError cuando toma un elemento que
-        # no es un directorio.
-        for building_folder in administration_folder.iterdir():
-            for service_folder in building_folder:
-                invoices = service_folder.glob(INVOICE_PATTERN)
-                if not invoices:
-                    services_without_invoice += service_folder
+        if administration_folder.is_dir():
+            for building_folder in administration_folder.iterdir():
+                if building_folder.is_dir():
+                    for service_folder in building_folder.iterdir():
+                        if service_folder.is_dir():
+                            invoices = list(service_folder.glob(INVOICE_PATTERN))
+                            if not invoices:
+                                services_without_invoice.append(service_folder)
 
     return services_without_invoice
 
@@ -52,9 +64,10 @@ def inform_copy_cancellation():
 
 def main():
     source_folder = choose_source_folder()
+    # TODO: Validar inputs de terceros y usuario?
     destination_folder = choose_destination_folder()
 
-    folders_without_invoice = get_folders_without_invoice()
+    folders_without_invoice = get_folders_without_invoice(source_folder)
 
     confirmed = ask_for_confirmation()
 
