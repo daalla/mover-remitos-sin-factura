@@ -29,7 +29,7 @@ def get_folders_without_invoice(source_folder):
 
     services_without_invoice = []
 
-    main_folder = pathlib.Path(source_folder)
+    administration_folder = pathlib.Path(source_folder)
     
     # TODO: 
     # - Agregar exception handling cuando interactuo con sistemas externos
@@ -42,15 +42,24 @@ def get_folders_without_invoice(source_folder):
     # - Ver si paso todas las constantes a un archivo de config.
     # - Más adelante ver si me conviene pasarlo a OOP (o sea, si se volvió
     # spaghetti code) o si lo mantengo en paradigma procedural.
-    for administration_folder in main_folder.iterdir():
-        if administration_folder.is_dir():
-            for building_folder in administration_folder.iterdir():
-                if building_folder.is_dir():
-                    for service_folder in building_folder.iterdir():
-                        if service_folder.is_dir():
-                            invoices = list(service_folder.glob(INVOICE_PATTERN))
+    
+    # TODO:
+    # - Acá mepa que conviene cambiar el nombre de "administration_folder" a 
+    # "administration_object".
+    # - Tmb analizar si no me conviene dejar el código en español para 
+    # adaptarlo al contexto de la empresa de papá. Por el momento, seguirlo en
+    # inglés y luego ver si paso el código a español.
+    # - ver si valido los inputs y hacer el programa APB.
+    # - concentrarme en lograr el mvp
+    for administration_object in administration_folder.iterdir():
+        if administration_object.is_dir():
+            for building_object in administration_object.iterdir():
+                if building_object.is_dir():
+                    for service_object in building_object.iterdir():
+                        if service_object.is_dir():
+                            invoices = list(service_object.glob(INVOICE_PATTERN))
                             if not invoices:
-                                services_without_invoice.append(service_folder)
+                                services_without_invoice.append(service_object)
 
     return services_without_invoice
 
