@@ -7,6 +7,15 @@
 
 Hacer tipo TDD pero "inverso"? Hacer el código, armar los tests y luego 
 refactorearlo? Capaz sirve como introducción a TDD
+
+
+mepa q conviene poner nombres de varaibles y demas en español para adaptarlo al 
+contexto dalla valle srl
+
+1
+
+
+1) todos los remitos que tiene de nombre x falta poner precio
 """
 
 import pathlib
